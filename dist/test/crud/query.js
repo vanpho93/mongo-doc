@@ -59,4 +59,32 @@ describe('Query', () => {
         // SELECT * FROM inventory WHERE status in ("A", "D")
         assert.equal(inventories.length, 5);
     }));
+    it('Specify AND condition', () => __awaiter(this, void 0, void 0, function* () {
+        const queryObj = {
+            status: 'A',
+            qty: { $gt: 30 }
+        };
+        // SELECT * FROM inventory WHERE status = "A" AND qty > 30
+        const inventories = yield Inventory.find(queryObj).toArray();
+        assert.equal(inventories.length, 2);
+    }));
+    it('Specify "or" condition', () => __awaiter(this, void 0, void 0, function* () {
+        const queryObj = {
+            $or: [
+                { status: 'A' },
+                { qty: { $gt: 80 } }
+            ]
+        };
+        // SELECT * FROM inventory WHERE status = "A" OR qty > 80
+        const inventories = yield Inventory.find(queryObj).toArray();
+        assert.equal(inventories.length, 4);
+    }));
+    it('Use "AND" and "OR"', () => __awaiter(this, void 0, void 0, function* () {
+        const inventories = yield Inventory.find({
+            status: "A",
+            $or: [{ qty: { $lt: 30 } }, { item: { $regex: "^p" } }]
+        }).toArray();
+        // SELECT * FROM inventory WHERE status = "A" AND ( qty < 30 OR item LIKE "p%")
+        assert.equal(inventories.length, 2);
+    }));
 });
