@@ -1,10 +1,11 @@
 import 'mocha';
 import * as assert from 'assert';
-import { Db, ObjectId, Collection } from 'mongodb';
+import { Db, Collection } from 'mongodb';
 import { connect } from '../../src/db';
 
 describe('Insert', () => {
     let Inventory: Collection;
+
     before('Connect to db', async () => {
         const db = await connect();
         Inventory = db.collection('inventory');
