@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "@types/mocha": "^2.2.43",
+    "@types/mongodb": "^2.2.15",
+    "mongodb": "^2.2.33"
+  },
+  "devDependencies": {
+    "eslint-config-rallycoding": "^3.2.0",
+    "mocha": "^4.0.1"
+  },
+  "name": "mongo-doc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "nodemon --exec 'mocha dist/test --recursive'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanpho93/mongo-doc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vanpho93/mongo-doc/issues"
+  },
+  "homepage": "https://github.com/vanpho93/mongo-doc#readme",
+  "description": ""
+}
