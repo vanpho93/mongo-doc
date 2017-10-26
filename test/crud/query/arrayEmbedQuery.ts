@@ -54,4 +54,21 @@ describe.only('Query an Array of Embedded Documents', () => {
         assert.equal(inventories.length, 1);
         assert.equal(inventories[0].item, 'journal');
     });
+
+    it('Using dot notation with fieldname', async () => {
+        // an element in the instock array matches the specified document
+        const cursor = await Inventory.find({
+            'instock.0.qty': { $lte: 5 }
+        });
+        const inventories = await cursor.toArray();
+        assert.equal(inventories.length, 2);
+    });
+
+    it('Query in a field', async () => {
+        const cursor = await Inventory.find({
+            'instock.qty': { $lte: 5 }
+        });
+        const inventories = await cursor.toArray();
+        assert.equal(inventories.length, 3);
+    });
 });
