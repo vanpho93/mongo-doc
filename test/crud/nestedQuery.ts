@@ -3,7 +3,7 @@ import * as assert from 'assert';
 import { Db, Collection } from 'mongodb';
 import { connect } from '../../src/db';
 
-describe.only('Query', () => {
+describe('Nested Query', () => {
     let Inventory: Collection;
 
     before('Connect to db', async () => {
