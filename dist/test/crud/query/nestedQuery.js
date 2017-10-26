@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("mocha");
 const assert = require("assert");
-const db_1 = require("../../src/db");
+require("mocha");
+const db_1 = require("../../../src/db");
 describe('Nested Query', () => {
     let Inventory;
     before('Connect to db', () => __awaiter(this, void 0, void 0, function* () {
@@ -20,33 +20,33 @@ describe('Nested Query', () => {
     beforeEach('Insert data for testing', () => __awaiter(this, void 0, void 0, function* () {
         yield Inventory.insertMany([
             {
-                item: "journal",
+                item: 'journal',
                 qty: 25,
-                size: { h: 14, w: 21, uom: "cm" },
-                status: "A"
+                size: { h: 14, w: 21, uom: 'cm' },
+                status: 'A'
             },
             {
-                item: "notebook",
+                item: 'notebook',
                 qty: 50,
-                size: { h: 8.5, w: 11, uom: "in" },
-                status: "A"
+                size: { h: 8.5, w: 11, uom: 'in' },
+                status: 'A'
             },
             {
-                item: "paper",
+                item: 'paper',
                 qty: 100,
-                size: { h: 8.5, w: 11, uom: "in" },
-                status: "D"
+                size: { h: 8.5, w: 11, uom: 'in' },
+                status: 'D'
             },
             {
-                item: "planner",
-                qty: 75, size: { h: 22.85, w: 30, uom: "cm" },
-                status: "D"
+                item: 'planner',
+                qty: 75, size: { h: 22.85, w: 30, uom: 'cm' },
+                status: 'D'
             },
             {
-                item: "postcard",
+                item: 'postcard',
                 qty: 45,
-                size: { h: 10, w: 15.25, uom: "cm" },
-                status: "A"
+                size: { h: 10, w: 15.25, uom: 'cm' },
+                status: 'A'
             }
         ]);
     }));
@@ -70,9 +70,9 @@ describe('Nested Query', () => {
     }));
     it('AND condition', () => __awaiter(this, void 0, void 0, function* () {
         const inventories = yield Inventory.find({
-            "size.h": { $lt: 15 },
-            "size.uom": "in",
-            status: "D"
+            'size.h': { $lt: 15 },
+            'size.uom': 'in',
+            'status': 'D'
         }).toArray();
         assert.equal(inventories.length, 1);
     }));

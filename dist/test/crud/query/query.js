@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("mocha");
 const assert = require("assert");
-const db_1 = require("../../src/db");
+require("mocha");
+const db_1 = require("../../../src/db");
 describe('Query', () => {
     let Inventory;
     before('Connect to db', () => __awaiter(this, void 0, void 0, function* () {
@@ -19,25 +19,25 @@ describe('Query', () => {
     }));
     beforeEach('Insert data for testing', () => __awaiter(this, void 0, void 0, function* () {
         yield Inventory.insertMany([
-            { item: "journal",
+            { item: 'journal',
                 qty: 25,
-                size: { h: 14, w: 21, uom: "cm" },
-                status: "A" },
-            { item: "notebook",
+                size: { h: 14, w: 21, uom: 'cm' },
+                status: 'A' },
+            { item: 'notebook',
                 qty: 50,
-                size: { h: 8.5, w: 11, uom: "in" },
-                status: "A" },
-            { item: "paper",
+                size: { h: 8.5, w: 11, uom: 'in' },
+                status: 'A' },
+            { item: 'paper',
                 qty: 100,
-                size: { h: 8.5, w: 11, uom: "in" },
-                status: "D" },
-            { item: "planner",
-                qty: 75, size: { h: 22.85, w: 30, uom: "cm" },
-                status: "D" },
-            { item: "postcard",
+                size: { h: 8.5, w: 11, uom: 'in' },
+                status: 'D' },
+            { item: 'planner',
+                qty: 75, size: { h: 22.85, w: 30, uom: 'cm' },
+                status: 'D' },
+            { item: 'postcard',
                 qty: 45,
-                size: { h: 10, w: 15.25, uom: "cm" },
-                status: "A" }
+                size: { h: 10, w: 15.25, uom: 'cm' },
+                status: 'A' }
         ]);
     }));
     it('Select all docs', () => __awaiter(this, void 0, void 0, function* () {
@@ -81,8 +81,8 @@ describe('Query', () => {
     }));
     it('Use "AND" and "OR"', () => __awaiter(this, void 0, void 0, function* () {
         const inventories = yield Inventory.find({
-            status: "A",
-            $or: [{ qty: { $lt: 30 } }, { item: { $regex: "^p" } }]
+            status: 'A',
+            $or: [{ qty: { $lt: 30 } }, { item: { $regex: '^p' } }]
         }).toArray();
         // SELECT * FROM inventory WHERE status = "A" AND ( qty < 30 OR item LIKE "p%")
         assert.equal(inventories.length, 2);

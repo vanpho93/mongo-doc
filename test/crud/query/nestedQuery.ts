@@ -1,7 +1,7 @@
-import 'mocha';
 import * as assert from 'assert';
-import { Db, Collection } from 'mongodb';
-import { connect } from '../../src/db';
+import 'mocha';
+import { Collection, Db } from 'mongodb';
+import { connect } from '../../../src/db';
 
 describe('Nested Query', () => {
     let Inventory: Collection;
@@ -14,33 +14,33 @@ describe('Nested Query', () => {
     beforeEach('Insert data for testing', async () => {
         await Inventory.insertMany([
             {
-                item: "journal",
+                item: 'journal',
                 qty: 25,
-                size: { h: 14, w: 21, uom: "cm" },
-                status: "A"
+                size: { h: 14, w: 21, uom: 'cm' },
+                status: 'A'
             },
             {
-                item: "notebook",
+                item: 'notebook',
                 qty: 50,
-                size: { h: 8.5, w: 11, uom: "in" },
-                status: "A"
+                size: { h: 8.5, w: 11, uom: 'in' },
+                status: 'A'
             },
             {
-                item: "paper",
+                item: 'paper',
                 qty: 100,
-                size: { h: 8.5, w: 11, uom: "in" },
-                status: "D"
+                size: { h: 8.5, w: 11, uom: 'in' },
+                status: 'D'
             },
             {
-                item: "planner",
-                qty: 75, size: { h: 22.85, w: 30, uom: "cm" },
-                status: "D"
+                item: 'planner',
+                qty: 75, size: { h: 22.85, w: 30, uom: 'cm' },
+                status: 'D'
             },
             {
-                item: "postcard",
+                item: 'postcard',
                 qty: 45,
-                size: { h: 10, w: 15.25, uom: "cm" },
-                status: "A"
+                size: { h: 10, w: 15.25, uom: 'cm' },
+                status: 'A'
             }
         ]);
     });
@@ -68,10 +68,10 @@ describe('Nested Query', () => {
 
     it('AND condition', async () => {
         const inventories = await Inventory.find({
-            "size.h": { $lt: 15 },
-            "size.uom": "in",
-            status: "D"
+            'size.h': { $lt: 15 },
+            'size.uom': 'in',
+            'status': 'D'
         }).toArray();
         assert.equal(inventories.length, 1);
-    })
+    });
 });
