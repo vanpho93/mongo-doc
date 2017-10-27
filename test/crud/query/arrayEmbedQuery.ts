@@ -47,7 +47,7 @@ describe.only('Query an Array of Embedded Documents', () => {
 
     it('Match document', async () => {
         // an element in the instock array matches the specified document
-        const cursor = await Inventory.find({
+        const cursor = Inventory.find({
             instock: { warehouse: 'A', qty: 5 }
         });
         const inventories = await cursor.toArray();
@@ -57,7 +57,7 @@ describe.only('Query an Array of Embedded Documents', () => {
 
     it('Using dot notation with fieldname', async () => {
         // an element in the instock array matches the specified document
-        const cursor = await Inventory.find({
+        const cursor = Inventory.find({
             'instock.0.qty': { $lte: 5 }
         });
         const inventories = await cursor.toArray();
@@ -65,10 +65,44 @@ describe.only('Query an Array of Embedded Documents', () => {
     });
 
     it('Query in a field', async () => {
-        const cursor = await Inventory.find({
+        const cursor = Inventory.find({
             'instock.qty': { $lte: 5 }
         });
         const inventories = await cursor.toArray();
         assert.equal(inventories.length, 3);
+    });
+
+    it('Single match. Use $elemMatch', async () => {
+        const cursor = Inventory.find({
+            instock: { $elemMatch: { qty: 5, warehouse: 'A' } }
+        });
+        const inventories = await cursor.toArray();
+        assert.equal(inventories[0].item, 'journal');
+    });
+
+    it('Single match. Use $elemMatch with operator', async () => {
+        const cursor = Inventory.find({
+            instock: { $elemMatch: 
+                { qty: { $gt: 10, $lte: 20 } }
+            }
+        });
+        const inventories = await cursor.toArray();
+        assert.equal(inventories.length, 3);
+    });
+
+    it('Combination of elements match 1', async () => {
+        const cursor = Inventory.find({
+            'instock.qty': { $gt: 10, $lte: 20 }
+        });
+        const inventories = await cursor.toArray();
+        assert.equal(inventories.length, 4);
+    });
+
+    it('Combination of elements match 2', async () => {
+        const cursor = Inventory.find({ 
+            'instock.qty': 5, 'instock.warehouse': 'A'
+          });
+        const inventories = await cursor.toArray();
+        assert.equal(inventories.length, 2);
     });
 });

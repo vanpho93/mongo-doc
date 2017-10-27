@@ -57,7 +57,7 @@ describe.only('Query an Array of Embedded Documents', () => {
     }));
     it('Match document', () => __awaiter(this, void 0, void 0, function* () {
         // an element in the instock array matches the specified document
-        const cursor = yield Inventory.find({
+        const cursor = Inventory.find({
             instock: { warehouse: 'A', qty: 5 }
         });
         const inventories = yield cursor.toArray();
@@ -66,17 +66,46 @@ describe.only('Query an Array of Embedded Documents', () => {
     }));
     it('Using dot notation with fieldname', () => __awaiter(this, void 0, void 0, function* () {
         // an element in the instock array matches the specified document
-        const cursor = yield Inventory.find({
+        const cursor = Inventory.find({
             'instock.0.qty': { $lte: 5 }
         });
         const inventories = yield cursor.toArray();
         assert.equal(inventories.length, 2);
     }));
     it('Query in a field', () => __awaiter(this, void 0, void 0, function* () {
-        const cursor = yield Inventory.find({
+        const cursor = Inventory.find({
             'instock.qty': { $lte: 5 }
         });
         const inventories = yield cursor.toArray();
         assert.equal(inventories.length, 3);
+    }));
+    it('Single match. Use $elemMatch', () => __awaiter(this, void 0, void 0, function* () {
+        const cursor = Inventory.find({
+            instock: { $elemMatch: { qty: 5, warehouse: 'A' } }
+        });
+        const inventories = yield cursor.toArray();
+        assert.equal(inventories[0].item, 'journal');
+    }));
+    it('Single match. Use $elemMatch with operator', () => __awaiter(this, void 0, void 0, function* () {
+        const cursor = Inventory.find({
+            instock: { $elemMatch: { qty: { $gt: 10, $lte: 20 } }
+            }
+        });
+        const inventories = yield cursor.toArray();
+        assert.equal(inventories.length, 3);
+    }));
+    it('Combination of elements match 1', () => __awaiter(this, void 0, void 0, function* () {
+        const cursor = Inventory.find({
+            'instock.qty': { $gt: 10, $lte: 20 }
+        });
+        const inventories = yield cursor.toArray();
+        assert.equal(inventories.length, 4);
+    }));
+    it('Combination of elements match 2', () => __awaiter(this, void 0, void 0, function* () {
+        const cursor = Inventory.find({
+            'instock.qty': 5, 'instock.warehouse': 'A'
+        });
+        const inventories = yield cursor.toArray();
+        assert.equal(inventories.length, 2);
     }));
 });
